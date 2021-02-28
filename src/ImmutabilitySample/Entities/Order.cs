@@ -16,12 +16,15 @@ namespace ImmutabilitySample.Entities
         public Address Address { get; private set; }
         public decimal GrandTotal { get; private set; }
 
+
         private readonly List<OrderItem> _orderItems = new List<OrderItem>();
         public IEnumerable<OrderItem> OrderItems => _orderItems.AsEnumerable();
 
+        
         // Just to demostrate calculated properties.
         public string GrandTotalNormalized => this.GrandTotal.ToString("n2");
 
+        
         private Order(int id, string orderNo, DateTime date)
         {
             this.Id = id;
@@ -44,6 +47,9 @@ namespace ImmutabilitySample.Entities
             UpdateAddress(address);
         }
 
+        /// It's important not to update the Address if there are no changes.
+        /// If updated, since it's a new object, EF tracker will mark it as New.
+        /// This can have implications on "Auditing" logic, if you have implemented one. 
         public void UpdateAddress(Address address)
         {
             _ = address ?? throw new ArgumentNullException(nameof(address));
