@@ -13,10 +13,6 @@ namespace ImmutabilitySample.DataAccess
     {
         public DbSet<Order> Orders { get; set; }
 
-        public AppDbContext()
-        {
-        }
-
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
