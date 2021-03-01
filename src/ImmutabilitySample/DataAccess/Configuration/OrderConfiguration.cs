@@ -16,8 +16,13 @@ namespace ImmutabilitySample.DataAccess.Configuration
         {
             builder.ToTable(nameof(Order));
 
-            builder.Property(x => x.OrderNo).IsRequired().HasMaxLength(10);
+            // Even though we're not configuring anything specific for Date property,
+            // it's crucial to write the following line, and let the EF know that we want to include this property.
+            // EF by default, excludes all properties with getters only. It assumes they are calculated properties.
             builder.Property(x => x.Date);
+
+
+            builder.Property(x => x.OrderNo).IsRequired().HasMaxLength(10);
             builder.Property(x => x.GrandTotal).HasPrecision(18, 2);
 
             builder.OwnsOne(x => x.Customer, o =>
